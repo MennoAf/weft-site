@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Getting started with Weft"
+  description="Install Weft, start its Postgres and Redis infrastructure, register it as an MCP server, and save your first memory — five steps, about five minutes."
+>
+  <section class="hero">
+    <div class="wrap prose">
+      <h1>Getting started</h1>
+      <p class="stance">
+        Five steps, about five minutes. At the end you'll have a shared brain that any agent — on
+        any machine — can read and write.
+      </p>
+      <div class="callout">
+        <strong>Prerequisites.</strong> Python 3.12+ and <a href="https://docs.astral.sh/uv/" rel="noopener">uv</a>.
+        Docker Desktop is needed only for <code>weft up</code> (local Postgres + Redis) and the
+        database-backed test suite. Only Docker is supported at this time.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <div class="step">
+        <h2><span class="step-num">01</span>Install Weft</h2>
+        <p>Recommended: pipx, for system-wide availability.</p>
+        <pre><code>pipx install git+https://github.com/MennoAf/weft.git</code></pre>
+        <p>Or as a uv tool:</p>
+        <pre><code>uv tool install git+https://github.com/MennoAf/weft.git</code></pre>
+        <p>For local development, clone and sync instead:</p>
+        <pre><code>git clone https://github.com/MennoAf/weft.git && cd weft && uv sync</code></pre>
+      </div>
+
+      <div class="step">
+        <h2><span class="step-num">02</span>Start infrastructure</h2>
+        <p>
+          One command launches Weft's local infrastructure — Postgres 16 with pgvector on port
+          5433 and Redis 7 on port 6380 — then runs migrations.
+        </p>
+        <pre><code>weft up</code></pre>
+      </div>
+
+      <div class="step">
+        <h2><span class="step-num">03</span>Register Weft as an MCP server</h2>
+        <p>
+          Add the Weft MCP server to your agent harness, using the harness's own MCP
+          documentation for its configuration format. Then give your agent the copy-paste
+          <a href="https://github.com/MennoAf/weft/blob/main/AGENTS.md" rel="noopener">memory protocol</a>
+          so it uses Weft tools instead of flat-file memories.
+        </p>
+        <p>
+          Claude-specific setup lives in the repo's
+          <a href="https://github.com/MennoAf/weft/blob/main/CLAUDE.md" rel="noopener">CLAUDE.md</a>;
+          harness-neutral connection steps are in the
+          <a href="https://github.com/MennoAf/weft/blob/main/docs/wiring-your-agent.md" rel="noopener"
+            >agent wiring guide</a
+          >.
+        </p>
+        <p>
+          You'll also want <code>prime</code> and <code>handoff</code> as skills your agents can
+          access — ready-made copies are in
+          <a href="https://github.com/MennoAf/weft/tree/main/templates/commands" rel="noopener"
+            >templates/commands/</a
+          >.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2><span class="step-num">04</span>Point your agent at Weft</h2>
+        <p>
+          With the protocol in place, the agent saves with <code>weft_remember</code>, recalls
+          with <code>weft_recall</code>, and treats flat files as fallback-only. A quick way to
+          verify the override stuck:
+        </p>
+        <div class="callout">
+          Ask your agent: <em>“Without me telling you, where do you save memories?”</em><br />
+          Expected answer: “Weft, via <code>weft_remember</code>. The flat-file system is
+          fallback-only.”
+        </div>
+      </div>
+
+      <div class="step">
+        <h2><span class="step-num">05</span>First session</h2>
+        <p>
+          Start a session and ask the agent to call
+          <code>weft_prime(disclosure="progressive")</code>. It loads any saved context, or
+          reports that none is available yet.
+        </p>
+        <p>
+          Memories are scoped per project, and a project is just a name: pick one name per repo
+          and stick to it. Tell your agent to save a memory, for example:
+        </p>
+        <pre><code>Save: I prefer test descriptions in the form "test_&lt;thing&gt;_&lt;condition&gt;_&lt;outcome&gt;"</code></pre>
+        <p>
+          Then write the project name into the repo's <code>AGENTS.md</code> (or your harness's
+          equivalent instructions file), so every agent that works in this repo — on any machine —
+          loads and saves to the same brain. At the end of a non-trivial session, ask it to call
+          <code>weft_handoff</code>; a later session's <code>weft_prime</code> will surface both.
+        </p>
+      </div>
+
+      <div class="step">
+        <h2>Going deeper</h2>
+        <p>
+          Every tool and parameter:
+          <a href="https://github.com/MennoAf/weft/blob/main/docs/tools.md" rel="noopener">docs/tools.md</a>.
+          Every CLI command:
+          <a href="https://github.com/MennoAf/weft/blob/main/docs/cli.md" rel="noopener">docs/cli.md</a>.
+          Configuration, environment variables, and infrastructure:
+          <a href="https://github.com/MennoAf/weft/blob/main/docs/configuration.md" rel="noopener"
+            >docs/configuration.md</a
+          >.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

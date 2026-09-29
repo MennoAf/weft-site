@@ -1,0 +1,16 @@
+{
+  "name": "weft-site",
+  "version": "1.0.0",
+  "description": "Marketing site for Weft — shared persistent memory for you and your agents.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/rss": "4.0.19",
+    "astro": "5.18.2"
+  }
+}

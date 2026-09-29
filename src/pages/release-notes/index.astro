@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const notes = (await getCollection('release-notes')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base
+  title="Release notes — Weft"
+  description="What changed in Weft, when, and why. Newest first, with an RSS feed for following along."
+>
+  <section class="hero">
+    <div class="wrap prose">
+      <h1>Release notes</h1>
+      <p class="stance">
+        What changed, when, and why — newest first. Numbers and claims link back to the repo, which
+        stays the source of truth. Follow along with
+        <a href="/release-notes/rss.xml">RSS</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      {notes.map((note) => (
+        <article class="release" id={`v${note.data.version}`}>
+          <h2>Weft {note.data.version}</h2>
+          <p class="release-meta">
+            <time datetime={note.data.date.toISOString()}>
+              {fmt(note.data.date)}
+            </time>
+            {note.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </p>
+          <div class="prose">
+            <Fragment set:html={note.rendered.html} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>

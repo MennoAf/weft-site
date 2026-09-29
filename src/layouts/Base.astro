@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180.png" />
+
+    <!-- Pre-paint theme: stored toggle wins, else explicit OS preference, else dark. -->
+    <script is:inline>
+      (() => {
+        let theme = 'dark';
+        try {
+          const stored = localStorage.getItem('weft-theme');
+          if (stored === 'light' || stored === 'dark') {
+            theme = stored;
+          } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+            theme = 'light';
+          }
+        } catch {
+          /* storage unavailable — dark default stands */
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Theme toggle — persisted; the pre-paint script in <head> reads it back.
+      const toggle = document.getElementById('theme-toggle');
+
+      const label = () => {
+        const light = document.documentElement.dataset.theme === 'light';
+        toggle?.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+      };
+      label();
+
+      toggle?.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem('weft-theme', next);
+        } catch {
+          /* private mode etc. — toggle still works for this page view */
+        }
+        label();
+      });
+    </script>
+  </body>
+</html>

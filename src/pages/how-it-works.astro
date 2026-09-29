@@ -1,0 +1,348 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Single source of truth for the demo storyboard. Rendered twice at build time:
+// once as static HTML (works with JS disabled), once as inline JSON the client
+// state machine steps through.
+const storyboard = {
+  title: 'How a memory forms',
+  beats: [
+    {
+      id: 'turn',
+      label: 'Turn',
+      title: 'A turn arrives',
+      paras: [
+        '> “I like listening to audiobooks on my commute, it’s about 45 minutes, so I prefer shorter chapters.”',
+        'Every session is made of turns. Weft records the turn as raw, timestamped evidence — nothing has been decided about it yet.',
+      ],
+      chips: [],
+      claim: null,
+      support: null,
+      recall: null,
+      closing: null,
+    },
+    {
+      id: 'parsed',
+      label: 'Parsed',
+      title: 'Facts surface — the turn stays a turn',
+      paras: [
+        'Structured facts surface from the sentence: the commute is about 45 minutes, and shorter chapters are preferred in the context of that commute.',
+        'The turn remains a turn — raw, timestamped evidence with a lifetime. Nothing has been promoted, nothing dropped.',
+      ],
+      chips: ['commute ≈ 45 min', 'prefers shorter chapters', 'context: commute'],
+      claim: null,
+      support: null,
+      recall: null,
+      closing: null,
+    },
+    {
+      id: 'claim',
+      label: 'Claim',
+      title: 'A claim forms — with receipts',
+      paras: [
+        'What’s designated as durable crystallizes into a memory: a typed claim with provenance back to the turn it came from. Not a summary Weft invented — a claim, with receipts.',
+      ],
+      chips: [],
+      claim: { name: 'preference.audiobook-chapter-length', source: 'turn #412 · 2026-09-29 08:14' },
+      support: null,
+      recall: null,
+      closing: null,
+    },
+    {
+      id: 'reinforced',
+      label: 'Reinforced',
+      title: 'Reinforced, not duplicated',
+      paras: [
+        'Weeks later you mention audiobooks again. Weft strengthens the same claim instead of spawning a near-copy — the support count goes up, and the provenance chain grows with it.',
+      ],
+      chips: [],
+      claim: { name: 'preference.audiobook-chapter-length', source: 'reinforced · turn #587' },
+      support: 1,
+      recall: null,
+      closing: null,
+    },
+    {
+      id: 'recalled',
+      label: 'Recalled',
+      title: 'Recalled when it matters',
+      paras: [
+        '> “Find me an audiobook for my commute.”',
+        'Weeks after it was saved, the claim appears in context — because it was saved, and because it can be found.',
+      ],
+      chips: [],
+      claim: null,
+      support: null,
+      recall: null,
+      closing: 'Nothing was remembered that you didn’t say. Nothing useful was lost.',
+    },
+  ],
+};
+
+// Escape "<" so the JSON can never close its own script tag.
+const storyboardJson = JSON.stringify(storyboard).replace(/</g, '\\u003c');
+---
+
+<Base
+  title="How Weft works — turns become claims with receipts"
+  description="Weft's memory lifecycle for humans: turns become claims, claims carry provenance, reinforcement deepens instead of duplicating — with a five-beat interactive walkthrough."
+>
+  <section class="hero">
+    <div class="wrap prose">
+      <h1>How Weft works</h1>
+      <p class="stance">
+        Memory in Weft has a shape: turns become claims, claims carry their receipts, and recall
+        puts the right claim in front of the agent that needs it. Nothing is remembered that you
+        didn't say.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>Everything starts as a turn</h2>
+      <p>
+        A turn is one exchange with your agent — raw, timestamped evidence. Turns are honest
+        about what they are: they expire. They are the substrate memory forms from, not the
+        memory itself.
+      </p>
+
+      <h2>Durable material becomes a claim</h2>
+      <p>
+        What you designate as worth keeping crystallizes into a typed memory — a preference, a
+        decision, a milestone, a fact — with provenance back to the turn it came from. Weft adds
+        the provenance and context. You make the call on what's durable.
+      </p>
+
+      <h2>Reinforcement, not duplication</h2>
+      <p>
+        Mention the same thing again and the claim gains support instead of spawning a
+        near-duplicate. Support counts and provenance chains are how a memory earns confidence —
+        quietly, traceably, on the record.
+      </p>
+
+      <h2>Recall is semantic</h2>
+      <p>
+        Weft stores embeddings alongside text, so recall is a meaning-based search over what you
+        saved — not a folder you have to remember. <code>weft_prime</code> assembles the context
+        at session start; <code>weft_recall</code> pulls specific memories when asked.
+      </p>
+
+      <h2>Handoff closes the loop</h2>
+      <p>
+        End a session with <code>weft_handoff</code> and the next one — same agent, different
+        agent, different machine — picks up where you left off. One command, no re-explaining.
+      </p>
+
+      <p>
+        This is user-directed memory with provenance, not autonomous curation. Weft doesn't
+        silently summarize your conversations to pad a recall score. When it gains an autonomous
+        classifier, it will be because it makes the core product better.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Interactive demo: how a memory forms">
+    <div class="wrap">
+      <h2>Watch a memory form</h2>
+      <p class="prose">
+        The audiobook example, five beats. Step through to see a turn become a claim — and come
+        back when it's needed.
+      </p>
+
+      <div class="demo" id="demo-shell">
+        <ol class="demo-static" id="demo-beats">
+          {storyboard.beats.map((beat) => (
+            <li class="beat">
+              <p class="beat-label">{beat.label}</p>
+              <h3>{beat.title}</h3>
+              {beat.paras.map((para) =>
+                para.startsWith('> ') ? (
+                  <p class="quote">{para.slice(2)}</p>
+                ) : (
+                  <p>{para}</p>
+                )
+              )}
+              {beat.chips.length > 0 && (
+                <ul class="chips">
+                  {beat.chips.map((chip) => (
+                    <li>{chip}</li>
+                  ))}
+                </ul>
+              )}
+              {beat.claim && (
+                <div class="claim-card">
+                  {beat.claim.name}
+                  <span class="claim-src">source: {beat.claim.source}</span>
+                </div>
+              )}
+              {beat.support !== null && (
+                <p>
+                  support_count <span class="support-badge">+{beat.support}</span>
+                  — the claim deepens instead of duplicating.
+                </p>
+              )}
+              {beat.closing && <p class="closing-line">{beat.closing}</p>}
+            </li>
+          ))}
+        </ol>
+
+        <div id="demo-player" hidden></div>
+
+        <div class="demo-controls" id="demo-controls" hidden>
+          <button class="demo-btn" id="demo-prev" type="button">← Back</button>
+          <button class="demo-btn" id="demo-next" type="button">Next →</button>
+          <ul class="demo-dots" id="demo-dots"></ul>
+          <span class="demo-progress" id="demo-progress" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <script type="application/json" id="demo-storyboard" set:html={storyboardJson} />
+
+      <p class="muted prose">
+        A scripted visualization — no live calls to any Weft instance. It shows what the lifecycle
+        looks like, not a running system.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Try it on your own machine</h2>
+      <p class="prose">
+        The walkthrough above is five beats of a real lifecycle. Yours starts with one install
+        command.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/getting-started">Get started</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Demo state machine: steps through the inline JSON storyboard.
+  // The static list above remains the content if this fails to run.
+  const shell = document.getElementById('demo-shell');
+  const jsonTag = document.getElementById('demo-storyboard');
+  const staticList = document.getElementById('demo-beats');
+  const player = document.getElementById('demo-player');
+  const controls = document.getElementById('demo-controls');
+  const prevBtn = document.getElementById('demo-prev');
+  const nextBtn = document.getElementById('demo-next');
+  const dotsEl = document.getElementById('demo-dots');
+  const progressEl = document.getElementById('demo-progress');
+
+  function el(tag: string, cls: string | null, text: string | null) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function initDemo() {
+    if (!shell || !jsonTag || !staticList || !player || !controls || !dotsEl) return;
+
+    let storyboard: { beats?: Beat[] };
+    try {
+      storyboard = JSON.parse(jsonTag.textContent || '') as { beats?: Beat[] };
+    } catch {
+      return; // malformed storyboard — the static list stays
+    }
+    const beats = storyboard.beats ?? [];
+    if (beats.length === 0) return;
+
+    interface Beat {
+      label: string;
+      title: string;
+      paras: string[];
+      chips: string[];
+      claim: { name: string; source: string } | null;
+      support: number | null;
+      recall: string | null;
+      closing: string | null;
+    }
+
+    const cards = beats.map((beat) => {
+      const card = el('article', 'demo-beat');
+      card.hidden = true;
+      card.appendChild(el('p', 'beat-label', beat.label));
+      card.appendChild(el('h3', null, beat.title));
+      (beat.paras ?? []).forEach((para) => {
+        card.appendChild(
+          para.startsWith('> ') ? el('p', 'quote', para.slice(2)) : el('p', null, para)
+        );
+      });
+      (beat.chips ?? []).forEach((chip) => {
+        let list = card.querySelector('ul.chips') as HTMLUListElement | null;
+        if (!list) {
+          list = el('ul', 'chips') as HTMLUListElement;
+          card.appendChild(list);
+        }
+        list.appendChild(el('li', null, chip));
+      });
+      if (beat.claim) {
+        const claim = el('div', 'claim-card');
+        claim.appendChild(el('span', null, beat.claim.name));
+        claim.appendChild(el('span', 'claim-src', 'source: ' + beat.claim.source));
+        card.appendChild(claim);
+      }
+      if (beat.support != null) {
+        const p = el('p', null, 'support_count ');
+        p.appendChild(el('span', 'support-badge', '+' + beat.support));
+        p.appendChild(document.createTextNode(' — the claim deepens instead of duplicating.'));
+        card.appendChild(p);
+      }
+      if (beat.recall) card.appendChild(el('p', 'quote', '“' + beat.recall + '”'));
+      if (beat.closing) card.appendChild(el('p', 'closing-line', beat.closing));
+      return card;
+    });
+    cards.forEach((card) => player.appendChild(card));
+
+    const dots = beats.map((beat, i) => {
+      const dot = el('button', 'demo-dot') as HTMLButtonElement;
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Beat ${i + 1}: ${beat.title}`);
+      dot.addEventListener('click', () => go(i));
+      const li = el('li', null);
+      li.appendChild(dot);
+      dotsEl.appendChild(li);
+      return dot;
+    });
+
+    let index = 0;
+
+    function go(i: number) {
+      index = Math.max(0, Math.min(beats.length - 1, i));
+      cards.forEach((card, ci) => {
+        card.hidden = ci !== index;
+      });
+      dots.forEach((dot, di) => dot.setAttribute('aria-current', di === index ? 'true' : 'false'));
+      if (progressEl) progressEl.textContent = `${index + 1} / ${beats.length}`;
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index === beats.length - 1;
+    }
+
+    prevBtn?.addEventListener('click', () => go(index - 1));
+    nextBtn?.addEventListener('click', () => go(index + 1));
+    shell.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        go(index + 1);
+        event.preventDefault();
+      } else if (event.key === 'ArrowLeft') {
+        go(index - 1);
+        event.preventDefault();
+      }
+    });
+
+    // Enhancement succeeded: swap the static list for the player.
+    shell.dataset.enhanced = 'true';
+    staticList.hidden = true;
+    player.hidden = false;
+    player.setAttribute('aria-live', 'polite');
+    player.setAttribute('aria-label', 'Interactive memory walkthrough');
+    controls.hidden = false;
+    go(0);
+  }
+
+  initDemo();
+</script>

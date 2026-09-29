@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Weft — shared persistent memory for you and your agents"
+  description="Weft is a persistent brain you share with your agents. It saves what you tell it to save — with provenance — and any agent, on any machine, can pull it back up with semantic search."
+>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Persistent agent memory</p>
+      <h1>Weft saves what you tell it to&nbsp;save.</h1>
+      <p class="stance">
+        A persistent brain you share with your agents. It doesn't remember everything — that's on
+        purpose. You decide what's remembered; Weft adds provenance and context, and keeps it
+        findable with semantic search. Predictability and trust over maximum recall.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/getting-started">Get started</a>
+        <a class="btn btn-ghost" href="https://github.com/MennoAf/weft" rel="me noreferrer">Read the source</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- Interlace mark: indigo weft over slate warp, theme-aware via CSS vars -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+          <path d="M80,24 L64,77 L43,34" stroke="var(--warp)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M20,24 L36,77 L57,34" stroke="var(--accent)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="what-is-weft">
+    <div class="wrap prose">
+      <h2>What is Weft?</h2>
+      <p>
+        Weft is a persistent brain you share with your agents. The default alternative is a set of
+        flat files your agent reads and writes. That works for a while, until it doesn't:
+      </p>
+      <ul>
+        <li>Memories stay locked to one repo or one platform — another agent can't read them.</li>
+        <li>
+          Retrieval is limited to <code>grep</code>, so finding one memory can mean burning your
+          agent's context reading everything.
+        </li>
+        <li>
+          Nothing tells the agent apart what matters in every session from a rule you wrote for a
+          bug you fixed nine months ago.
+        </li>
+        <li>Every new session starts from zero, handing the agent the same list of files again.</li>
+      </ul>
+      <p>
+        Weft treats memory as a first-class data system. Multiple agent platforms read and write
+        the same brain. You can hand a session off to a fresh agent with one command. Same agent,
+        different agent, <em>different machine</em> — it doesn't matter. Weft is built for your
+        projects, not for a single platform.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>How memory is formed</h2>
+      <p>
+        A turn arrives. What you designate as durable becomes a claim with provenance back to the
+        turn it came from. Later mentions reinforce the claim instead of duplicating it. Recall
+        puts it in front of the agent that needs it.
+      </p>
+      <p><a href="/how-it-works">See the five-beat walkthrough →</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="benchmarks">
+    <div class="wrap prose">
+      <h2>The numbers, plainly</h2>
+      <p>
+        Weft doesn't benchmark well — because it isn't designed to remember things the way a
+        benchmark tests. For transparency, we ran it through
+        <a href="https://github.com/xiaowu0162/LongMemEval" rel="noopener">LongMemEval</a>-S
+        (multi-session chat memory, ~40 sessions per question) using the turn tier: the memory
+        representation that works best here.
+      </p>
+      <p>
+        On the full 500-question split, judged accuracy was <strong>67.54%</strong> — one paid
+        run, scored with LongMemEval's official answer-check prompt, nothing hidden. The weakest
+        question types (multi-session, knowledge-update, single-session preference) are named as
+        the first post-launch improvement targets. The numbers measure the system as it actually
+        ships, not a benchmark-tuned configuration.
+      </p>
+      <p>
+        Full results, per-type breakdown, cost ledger, and the harness to reproduce it — all in
+        the repo:
+        <a href="https://github.com/MennoAf/weft/blob/main/docs/benchmarks.md" rel="noopener"
+          >docs/benchmarks.md</a
+        >.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Five minutes to a shared brain</h2>
+      <p class="prose">
+        Install Weft, run <code>weft up</code>, register the MCP server, save your first memory.
+        Then every agent you use — on every machine — works from the same brain.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/getting-started">Get started</a>
+        <a class="btn btn-ghost" href="/release-notes">Release notes</a>
+      </div>
+    </div>
+  </section>
+</Base>

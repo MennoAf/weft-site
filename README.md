@@ -28,6 +28,24 @@ npm run preview # serve the built site locally
 - **Theme**: tokens at the top of `src/styles/global.css`. Dark is the default; the toggle is
   persisted in `localStorage` and applied pre-paint (no flash).
 
+## Editing page copy
+
+There is a local editing canvas for copy edits: `editing/*.md` — one file per page plus
+`_global.md` for header/footer/theme-toggle labels. The directory is gitignored and never
+committed; it is a plain-markdown mirror of the live page copy, kept in this working tree only.
+
+The loop:
+
+1. Edit the copy in `editing/*.md`. Each file's `## Section:` lines map to the page's sections
+   in order — keep them. Mark desired removals with ~~strikethrough~~ rather than deleting
+   (deleted text gets restored from the live page).
+2. Ask Warp: "grammar pass + publish" — the edits are applied back into `src/`.
+3. `npm run build` verifies, then the change is committed and pushed.
+4. Pushing to `main` deploys via Cloudflare Pages.
+
+Live copy still lives in `src/pages/*.astro` and `src/content/release-notes/`; the canvas is a
+drafting surface, not a build input.
+
 ## Deploying (Cloudflare Pages)
 
 The repo is not created by this scaffold — create it first:

@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-// Placeholder host per the site plan; replaced when the real domain is attached.
+// Production domain (Cloudflare Pages custom domain on the mediumroast.dev zone).
 export default defineConfig({
-  site: 'https://weft.pages.dev',
+  site: 'https://weft.mediumroast.dev',
 });

@@ -3,17 +3,22 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base
-  title="Weft — shared persistent memory for you and your agents"
-  description="Weft is a persistent brain you share with your agents. It saves what you tell it to save — with provenance — and any agent, on any machine, can pull it back up with semantic search."
+  title="Weft — A Shared Persistent Memory For AI Agents"
+  description="Have your agent remember where you left off last session without wasting context. MIT Licensed & Local First"
 >
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Persistent agent memory</p>
-      <h1>Weft saves what you tell it to&nbsp;save.</h1>
+      <p class="eyebrow">Memory For Your Agents</p>
+      <h1>Weft Remembers What You Tell It To</h1>
       <p class="stance">
-        A persistent brain you share with your agents. It doesn't remember everything — that's on
-        purpose. You decide what's remembered; Weft adds provenance and context, and keeps it
-        findable with semantic search. Predictability and trust over maximum recall.
+        Weft is a persistent brain you share with your agents that only remembers what you tell it
+        to. You decide what's important for agents to pick up between conversations; Weft adds
+        provenance and context so that those memories are just a semantic search away.
+      </p>
+      <p class="stance">
+        Weft doesn't remember everything on purpose. You don't need your agent to remember every
+        time you asked "Does that sound right to you?" You want something that remembers what you
+        decided. Weft prioritizes predictability and trust over maximum recall.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/getting-started">Get started</a>
@@ -31,60 +36,99 @@ import Base from '../layouts/Base.astro';
 
   <section class="section" id="what-is-weft">
     <div class="wrap prose">
-      <h2>What is Weft?</h2>
+      <h2>Why Did I Make Weft?</h2>
       <p>
-        Weft is a persistent brain you share with your agents. The default alternative is a set of
-        flat files your agent reads and writes. That works for a while, until it doesn't:
+        If you want to send information to your agent in a new session, without a memory system,
+        you have two choices:
       </p>
       <ul>
-        <li>Memories stay locked to one repo or one platform — another agent can't read them.</li>
-        <li>
-          Retrieval is limited to <code>grep</code>, so finding one memory can mean burning your
-          agent's context reading everything.
-        </li>
-        <li>
-          Nothing tells the agent apart what matters in every session from a rule you wrote for a
-          bug you fixed nine months ago.
-        </li>
-        <li>Every new session starts from zero, handing the agent the same list of files again.</li>
+        <li>You can copy and paste a handoff each time you hit <code>clear</code></li>
+        <li>You try to save stuff to a handoff file and tell your agent to update and import it each run.</li>
       </ul>
+      <p>This works, until it doesn't.</p>
       <p>
-        Weft treats memory as a first-class data system. Multiple agent platforms read and write
-        the same brain. You can hand a session off to a fresh agent with one command. Same agent,
-        different agent, <em>different machine</em> — it doesn't matter. Weft is built for your
-        projects, not for a single platform.
+        Your memories are locked in that repo or platform, and if you switch to something else,
+        that new agent might not be able to read them. Hunting for a specific memory? Your agent
+        uses <code>grep</code>, and if it finds it, you'll end up loading a ton of context that
+        you don't care about.
       </p>
+      <p>
+        Every session starts from zero and you waste time trying to get the agent up to speed
+        until the real work begins.
+      </p>
+      <p>Weft helps fix that.</p>
+      <p>It's a private, local-first platform that treats your memories as a first-class data system.</p>
+      <p>
+        When you end a session, Weft lets your agent hand off a summary of what they did and what
+        comes next. In that new session your agent can prime itself with just the information it
+        needs to get started.
+      </p>
+      <p>
+        Memories are stored in a database that allows for semantic search accessible by any agent
+        connected to your Weft MCP.
+      </p>
+      <p>Same agent, different agent, <em>different machine</em> — it doesn't matter.</p>
+      <p>Your memories belong to you, not your harness.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap prose">
-      <h2>How memory is formed</h2>
+      <h2>What's In A Weft Memory?</h2>
       <p>
-        A turn arrives. What you designate as durable becomes a claim with provenance back to the
-        turn it came from. Later mentions reinforce the claim instead of duplicating it. Recall
-        puts it in front of the agent that needs it.
+        You have a breakthrough in how you work with your agent and say "Make this a rule:
+        Whenever we push a PR, we don't consider it valid unless the GitHub CI checks all pass
+        green."
       </p>
-      <p><a href="/how-it-works">See the five-beat walkthrough →</a></p>
+      <p>
+        Your agent sends the memory to Weft, with provenance about the conversation it came from.
+        It looks like this:
+      </p>
+      <pre><code>content: "When pushing a PR to GitHub, do not tell the user the PR is valid unless all CI checks come back green"
+type: "preference"
+topic: ["pull-requests", "ci"]
+confidence: 0.97
+source: "conversation"</code></pre>
+      <p>
+        Then, the memory is persisted, converted to a semantic vector, and available for your
+        agents. The next time it goes to push a PR, the instruction surfaces.
+      </p>
+      <p><a href="/how-it-works">See how it works →</a></p>
     </div>
   </section>
 
   <section class="section" id="benchmarks">
     <div class="wrap prose">
-      <h2>The numbers, plainly</h2>
+      <h2>Weft Works In Ways That Are Hard To Benchmark</h2>
       <p>
-        Weft doesn't benchmark well — because it isn't designed to remember things the way a
-        benchmark tests. For transparency, we ran it through
-        <a href="https://github.com/xiaowu0162/LongMemEval" rel="noopener">LongMemEval</a>-S
-        (multi-session chat memory, ~40 sessions per question) using the turn tier: the memory
-        representation that works best here.
+        Weft doesn't benchmark well because it doesn't work the way most benchmarks test. Most
+        "agent memory" benchmarks assume the system remembers everything and so they're designed
+        to see how well a system can sift through hundreds of conversations to find the right
+        answer. Weft intentionally doesn't do this.
       </p>
       <p>
-        On the full 500-question split, judged accuracy was <strong>67.54%</strong> — one paid
-        run, scored with LongMemEval's official answer-check prompt, nothing hidden. The weakest
-        question types (multi-session, knowledge-update, single-session preference) are named as
-        the first post-launch improvement targets. The numbers measure the system as it actually
-        ships, not a benchmark-tuned configuration.
+        Instead, it remembers the things you tell it to, and not a lot else. I want Weft to have
+        an auto-memory function, but I don't want a gimmick. I want it to remember the stuff you'd
+        tell it to remember without burying it with a ton of information you don't care about.
+        Weft will never tell you how many times you told your system to "make no mistakes" —
+        unless you tell it to.
+      </p>
+      <p>
+        For transparency, we ran it through
+        <a href="https://github.com/xiaowu0162/LongMemEval" rel="noopener">LongMemEval</a>-S
+        (multi-session chat memory, ~40 sessions per question). We ran the full 500-question split
+        using <code>gpt-6-luna</code> via the API, in "turn tier" mode — the version of Weft that
+        aligns most closely with how LongMemEval works.
+      </p>
+      <p>
+        Judged accuracy was <strong>67.54%</strong> as scored by LongMemEval's official judge —
+        one paid run, nothing hidden. The weakest question types (multi-session,
+        knowledge-update, single-session preference) are the first post-launch improvements Weft
+        will ship.
+      </p>
+      <p>
+        But the benchmark measures the system that ships today, configured the way you actually
+        use it, not in a harness designed to make the numbers higher than they really are.
       </p>
       <p>
         Full results, per-type breakdown, cost ledger, and the harness to reproduce it — all in
@@ -98,10 +142,10 @@ import Base from '../layouts/Base.astro';
 
   <section class="section">
     <div class="wrap">
-      <h2>Five minutes to a shared brain</h2>
+      <h2>5 Minutes To A Better Memory</h2>
       <p class="prose">
         Install Weft, run <code>weft up</code>, register the MCP server, save your first memory.
-        Then every agent you use — on every machine — works from the same brain.
+        Then every agent you use, in any harness, can remember the things you care about.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/getting-started">Get started</a>

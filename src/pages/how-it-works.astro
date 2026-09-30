@@ -5,12 +5,12 @@ import Base from '../layouts/Base.astro';
 // once as static HTML (works with JS disabled), once as inline JSON the client
 // state machine steps through.
 const storyboard = {
-  title: 'How a memory forms',
+  title: 'How A Memory Forms',
   beats: [
     {
       id: 'turn',
       label: 'Turn',
-      title: 'A turn arrives',
+      title: 'A Turn Arrives',
       paras: [
         '> “I like listening to audiobooks on my commute, it’s about 45 minutes, so I prefer shorter chapters.”',
         'Every session is made of turns. Weft records the turn as raw, timestamped evidence — nothing has been decided about it yet.',
@@ -24,7 +24,7 @@ const storyboard = {
     {
       id: 'parsed',
       label: 'Parsed',
-      title: 'Facts surface — the turn stays a turn',
+      title: 'Facts Surface — The Turn Stays A Turn',
       paras: [
         'Structured facts surface from the sentence: the commute is about 45 minutes, and shorter chapters are preferred in the context of that commute.',
         'The turn remains a turn — raw, timestamped evidence with a lifetime. Nothing has been promoted, nothing dropped.',
@@ -38,7 +38,7 @@ const storyboard = {
     {
       id: 'claim',
       label: 'Claim',
-      title: 'A claim forms — with receipts',
+      title: 'A Claim Forms — With Receipts',
       paras: [
         'What’s designated as durable crystallizes into a memory: a typed claim with provenance back to the turn it came from. Not a summary Weft invented — a claim, with receipts.',
       ],
@@ -51,7 +51,7 @@ const storyboard = {
     {
       id: 'reinforced',
       label: 'Reinforced',
-      title: 'Reinforced, not duplicated',
+      title: 'Reinforced, Not Duplicated',
       paras: [
         'Weeks later you mention audiobooks again. Weft strengthens the same claim instead of spawning a near-copy — the support count goes up, and the provenance chain grows with it.',
       ],
@@ -64,7 +64,7 @@ const storyboard = {
     {
       id: 'recalled',
       label: 'Recalled',
-      title: 'Recalled when it matters',
+      title: 'Recalled When It Matters',
       paras: [
         '> “Find me an audiobook for my commute.”',
         'Weeks after it was saved, the claim appears in context — because it was saved, and because it can be found.',
@@ -83,12 +83,12 @@ const storyboardJson = JSON.stringify(storyboard).replace(/</g, '\\u003c');
 ---
 
 <Base
-  title="How Weft works — turns become claims with receipts"
+  title="How Weft Works — Turns Become Claims With Receipts"
   description="Weft's memory lifecycle for humans: turns become claims, claims carry provenance, reinforcement deepens instead of duplicating — with a five-beat interactive walkthrough."
 >
   <section class="hero">
     <div class="wrap prose">
-      <h1>How Weft works</h1>
+      <h1>How Weft Works</h1>
       <p class="stance">
         Memory in Weft has a shape: turns become claims, claims carry their receipts, and recall
         puts the right claim in front of the agent that needs it. Nothing is remembered that you
@@ -99,35 +99,35 @@ const storyboardJson = JSON.stringify(storyboard).replace(/</g, '\\u003c');
 
   <section class="section">
     <div class="wrap prose">
-      <h2>Everything starts as a turn</h2>
+      <h2>Everything Starts As A Turn</h2>
       <p>
         A turn is one exchange with your agent — raw, timestamped evidence. Turns are honest
         about what they are: they expire. They are the substrate memory forms from, not the
         memory itself.
       </p>
 
-      <h2>Durable material becomes a claim</h2>
+      <h2>Durable Material Becomes A Claim</h2>
       <p>
         What you designate as worth keeping crystallizes into a typed memory — a preference, a
         decision, a milestone, a fact — with provenance back to the turn it came from. Weft adds
         the provenance and context. You make the call on what's durable.
       </p>
 
-      <h2>Reinforcement, not duplication</h2>
+      <h2>Reinforcement, Not Duplication</h2>
       <p>
         Mention the same thing again and the claim gains support instead of spawning a
         near-duplicate. Support counts and provenance chains are how a memory earns confidence —
         quietly, traceably, on the record.
       </p>
 
-      <h2>Recall is semantic</h2>
+      <h2>Recall Is Semantic</h2>
       <p>
         Weft stores embeddings alongside text, so recall is a meaning-based search over what you
         saved — not a folder you have to remember. <code>weft_prime</code> assembles the context
         at session start; <code>weft_recall</code> pulls specific memories when asked.
       </p>
 
-      <h2>Handoff closes the loop</h2>
+      <h2>Handoff Closes The Loop</h2>
       <p>
         End a session with <code>weft_handoff</code> and the next one — same agent, different
         agent, different machine — picks up where you left off. One command, no re-explaining.
@@ -143,7 +143,7 @@ const storyboardJson = JSON.stringify(storyboard).replace(/</g, '\\u003c');
 
   <section class="section" aria-label="Interactive demo: how a memory forms">
     <div class="wrap">
-      <h2>Watch a memory form</h2>
+      <h2>Watch A Memory Form</h2>
       <p class="prose">
         The audiobook example, five beats. Step through to see a turn become a claim — and come
         back when it's needed.
@@ -207,7 +207,7 @@ const storyboardJson = JSON.stringify(storyboard).replace(/</g, '\\u003c');
 
   <section class="section">
     <div class="wrap">
-      <h2>Try it on your own machine</h2>
+      <h2>Try It On Your Own Machine</h2>
       <p class="prose">
         The walkthrough above is five beats of a real lifecycle. Yours starts with one install
         command.

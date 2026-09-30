@@ -3,19 +3,19 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base
-  title="Getting started with Weft"
-  description="Install Weft, start its Postgres and Redis infrastructure, register it as an MCP server, and save your first memory — five steps, about five minutes."
+  title="Your First Five Minutes With Weft"
+  description="Install Weft, start its infrastructure, save a memory. Congrats! You're building a second brain."
 >
   <section class="hero">
     <div class="wrap prose">
-      <h1>Getting started</h1>
+      <h1>Getting Started</h1>
       <p class="stance">
-        Five steps, about five minutes. At the end you'll have a shared brain that any agent — on
-        any machine — can read and write.
+        Five steps and about five minutes is all that's between your agent and a memory that
+        persists across conversations, harnesses, and devices.
       </p>
       <div class="callout">
         <strong>Prerequisites.</strong> Python 3.12+ and <a href="https://docs.astral.sh/uv/" rel="noopener">uv</a>.
-        Docker Desktop is needed only for <code>weft up</code> (local Postgres + Redis) and the
+        Docker Desktop is needed for <code>weft up</code> (local Postgres + Redis) and the
         database-backed test suite. Only Docker is supported at this time.
       </div>
     </div>
@@ -34,7 +34,7 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="step">
-        <h2><span class="step-num">02</span>Start infrastructure</h2>
+        <h2><span class="step-num">02</span>Start The Weft Infrastructure</h2>
         <p>
           One command launches Weft's local infrastructure — Postgres 16 with pgvector on port
           5433 and Redis 7 on port 6380 — then runs migrations.
@@ -43,7 +43,7 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="step">
-        <h2><span class="step-num">03</span>Register Weft as an MCP server</h2>
+        <h2><span class="step-num">03</span>Register Weft As An MCP Server</h2>
         <p>
           Add the Weft MCP server to your agent harness, using the harness's own MCP
           documentation for its configuration format. Then give your agent the copy-paste
@@ -68,11 +68,11 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="step">
-        <h2><span class="step-num">04</span>Point your agent at Weft</h2>
+        <h2><span class="step-num">04</span>Point Your Agent At Weft</h2>
         <p>
-          With the protocol in place, the agent saves with <code>weft_remember</code>, recalls
-          with <code>weft_recall</code>, and treats flat files as fallback-only. A quick way to
-          verify the override stuck:
+          With your Agents.md updated, your agent saves with <code>weft_remember</code>, recalls
+          with <code>weft_recall</code>, treating flat files as fallback-only. A quick way to
+          verify the instructions stuck:
         </p>
         <div class="callout">
           Ask your agent: <em>“Without me telling you, where do you save memories?”</em><br />
@@ -82,11 +82,14 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="step">
-        <h2><span class="step-num">05</span>First session</h2>
+        <h2><span class="step-num">05</span>First Session</h2>
         <p>
           Start a session and ask the agent to call
-          <code>weft_prime(disclosure="progressive")</code>. It loads any saved context, or
-          reports that none is available yet.
+          <code>weft_prime(disclosure="progressive")</code>. If you installed the skills, just use
+          <code>/prime</code>.
+        </p>
+        <p>
+          The first time you do this, you'll get a notification that there are no memories yet.
         </p>
         <p>
           Memories are scoped per project, and a project is just a name: pick one name per repo
@@ -102,7 +105,7 @@ import Base from '../layouts/Base.astro';
       </div>
 
       <div class="step">
-        <h2>Going deeper</h2>
+        <h2>Going Deeper</h2>
         <p>
           Every tool and parameter:
           <a href="https://github.com/MennoAf/weft/blob/main/docs/tools.md" rel="noopener">docs/tools.md</a>.

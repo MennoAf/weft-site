@@ -15,6 +15,30 @@ import Base from '../layouts/Base.astro';
         to. You decide what's important for agents to pick up between conversations; Weft adds
         provenance and context so that those memories are just a semantic search away.
       </p>
+      <figure
+        class="terminal"
+        role="img"
+        aria-label="Terminal demo: a session ends with weft_handoff saving a summary, the context is cleared, and a new session on a different machine runs weft_prime and picks up the thread — nothing re-explained."
+      >
+        <div class="terminal-bar" aria-hidden="true"><i></i><i></i><i></i><span>weft · local</span></div>
+<pre aria-hidden="true"><span class="t-dim">session 1</span>
+<span class="t-user">&gt; wrap it up for today</span>
+<span class="t-tool">● weft_handoff</span>
+  "shipped the MCP acceptance harness.
+   next: rate-limit /recall."
+  <span class="t-ok">✓</span> saved · 3 decisions · 1 preference
+
+<span class="t-user">$ clear</span>  <span class="t-dim"># context gone. all of it.</span>
+
+<span class="t-dim">session 2 — different machine</span>
+<span class="t-user">&gt; pick it back up</span>
+<span class="t-tool">● weft_prime</span>
+  <span class="t-ok">✓</span> 1 handoff · 4 memories loaded
+  "last session: MCP harness shipped.
+   next: rate-limit /recall."
+
+<span class="t-ok">✓ current. nothing re-explained.</span><span class="t-cursor"></span></pre>
+      </figure>
       <p class="stance">
         Weft doesn't remember everything on purpose. You don't need your agent to remember every
         time you asked "Does that sound right to you?" You want something that remembers what you

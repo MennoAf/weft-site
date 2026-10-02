@@ -140,23 +140,25 @@ source: "conversation"</code></pre>
       <p>
         For transparency, we ran it through
         <a href="https://github.com/xiaowu0162/LongMemEval" rel="noopener">LongMemEval</a>-S
-        (multi-session chat memory, ~40 sessions per question). We ran the full 500-question split
-        using <code>gpt-6-luna</code> via the API, in "turn tier" mode — the version of Weft that
-        aligns most closely with how LongMemEval works.
+        (multi-session chat memory, ~40 sessions per question). We ran three checkpointed
+        repetitions of the same full 500-question set using <code>gpt-6-luna</code> via the API, in
+        "turn tier" mode — the version of Weft that aligns most closely with how LongMemEval works.
       </p>
       <p>
-        Judged accuracy was <strong>67.54%</strong> as scored by LongMemEval's official judge —
-        one paid run, nothing hidden. The weakest question types (multi-session,
-        knowledge-update, single-session preference) are the first post-launch improvements Weft
-        will ship.
+        Judged accuracy averaged about <strong>80.0%</strong> across the three runs, compared with
+        a <strong>67.5%</strong> historical baseline (<strong>+12.4 percentage points</strong>).
+        The runs scored 395/495 (79.8%), 404/499 (81.0%), and 393/497 (79.1%); nine selected cases
+        were not judged. These are repeated runs over the same questions, not independent samples.
+        The largest gains were in knowledge update (+23.5 points) and multi-session recall
+        (+18.7 points). Single-session preference averaged 55.6%, versus a 56.7% baseline, with
+        run scores from 50% to 60% across the same 30 questions. Combined provider spend for the
+        three runs was about $3.34. A preliminary case review suggests mixed causes for preference
+        misses, but the causal split is unconfirmed.
       </p>
       <p>
-        But the benchmark measures the system that ships today, configured the way you actually
-        use it, not in a harness designed to make the numbers higher than they really are.
-      </p>
-      <p>
-        Full results, per-type breakdown, cost ledger, and the harness to reproduce it — all in
-        the repo:
+        LongMemEval measures a synthetic end-to-end agent workflow, not Weft retrieval alone or a
+        personal-use success rate. Full results, limitations, and the reproduction harness are in
+        the repository benchmark report:
         <a href="https://github.com/MennoAf/weft/blob/main/docs/benchmarks.md" rel="noopener"
           >docs/benchmarks.md</a
         >.
